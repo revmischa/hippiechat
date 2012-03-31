@@ -3,18 +3,19 @@
         <title>Test</title>
         <base href="http://cjd.int80.biz:4000/static/" />
 
-        <link rel="stylesheet" href="ui-darkness/jquery-ui-1.8.18.custom.css" type="text/css" charset="utf-8" />
-        <link rel="stylesheet" href="jquery.ui.chatbox.css" type="text/css" charset="utf-8" />
+        <link rel="stylesheet" href="file:///Users/bobo/dev/hippiechat/ui-darkness/jquery-ui-1.8.18.custom.css" type="text/css" charset="utf-8" />
+        <link rel="stylesheet" href="file:///Users/bobo/dev/hippiechat/jquery.ui.chatbox.css" type="text/css" charset="utf-8" />
+        <link rel="stylesheet" href="file:///Users/bobo/dev/hippiechat/hippiechat.css" type="text/css" charset="utf-8" />
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="jquery-ui-1.8.18.custom.min.js"></script>
+        <script src="file:///Users/bobo/dev/hippiechat/jquery-ui-1.8.18.custom.min.js"></script>
         <script src="jquery.ev.js"></script>
         <script src="DUI.js"></script>
         <script src="Stream.js"></script>
         <script src="hippie.js"></script>
         <script src="json2.js"></script>
-        <script src="jquery.ui.chatbox.js"></script>
-        <script src="hippiechat.js"></script>
+        <script src="file:///Users/bobo/dev/hippiechat/jquery.ui.chatbox.js"></script>
+        <script src="file:///Users/bobo/dev/hippiechat/hippiechat.js"></script>
         <script>
             var chat;
 
@@ -24,19 +25,21 @@
                 chat.on('disconnected', disconnected);
                 chat.on('event', gotEvent);
                 
+                chat.setChatUsername("Bobo");
+                chat.setChatTitle("Chats");
                 chat.showChatbox();
             });
 
             function connected() {
-                console.log("connected");
+                //console.log("connected");
             }
 
             function disconnected() {
-                console.log("disconnected");
+                //console.log("disconnected");
             }
 
-            function gotEvent(evt) {
-                console.log(evt);
+            function gotEvent(event, hippieEvent) {
+                //console.log(hippieEvent);
             }
         </script>
     </head>

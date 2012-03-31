@@ -4,16 +4,30 @@ function HippieChat(host, port, channel) {
     if (! port) port = 4000;
     if (! channel) channel = 'public_chat';
 
+    var self = this;
+    
     this.h = new Hippie(
         host + ":" + port,
         channel,
         $.proxy(this._connected, this),
         $.proxy(this._disconnected, this),
-        $.proxy(this._event, this)
+        function (evt) { self._event(evt) }
     );
 }
 
 $.extend(HippieChat.prototype, {
+    setChatTitle: function (title) {
+        this.chatTitle = title;
+        if (this.chatbox)
+            this.chatbox.chatbox("option", "title", title);
+    },
+    
+    setChatUsername: function (name) {
+        this.chatUsername = name;
+        if (this.chatbox)
+            this.chatbox.chatbox("option", "user", chatUsername);
+    },
+    
     showChatbox: function () {
         if (this.chatbox) {
             this.chatbox.fadeIn();
@@ -21,27 +35,33 @@ $.extend(HippieChat.prototype, {
         } 
         
         var chatbox = $(document.createElement("div"));
-        
-        this.chatbox = chatbox.chatbox({
-            title: "test chat", 
-            user: "user",
+        this.chatbox = chatbox;
+        chatbox.chatbox({
+            title: this.chatTitle, 
+            user: this.chatUsername,
             messageSent: $.proxy(this.messageSent, this)
         });
     },
 
     messageSent: function(id, user, msg) {
-        console.log(id + " said: " + msg);
-        console.log(this.chatbox("option", "boxManager"));
-        this.chatbox("option", "boxManager").addMsg(id, msg);
+        this.h.send({
+            'name': user,
+            'chatMessage': msg
+        });
     },
     
     _connected: function () {
         this.trigger('connected');
     },
+    
     _disconnected: function () {
-        this.trigger('disconnected18');
+        this.trigger('disconnected');
     },
+    
     _event: function (evt) {
+        if (evt.chatMessage && this.chatbox && this.chatbox.chatbox) {
+            this.chatbox.chatbox("option", "boxManager").addMsg(evt.name, evt.chatMessage);
+        }
         this.trigger('event', evt);
     },
 
