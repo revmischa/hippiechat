@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Test</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="/static/jquery.ev.js"></script>
+        <script src="/static/DUI.js"></script>
+        <script src="/static/Stream.js"></script>
+        <script src="/static/hippie.js"></script>
+        <script src="/static/json2.js"></script>
+        <script src="/static/hippiechat.js"></script>
+        <script>
+            var chat;
+
+            $(function () {
+                chat = new HippieChat();
+                chat.on('connected', connected);
+                chat.on('disconnected', disconnected);
+                chat.on('event', gotEvent);
+            });
+
+            function connected() {
+                console.log("connected");
+            }
+
+            function disconnected() {
+                console.log("disconnected");
+            }
+
+            function gotEvent(evt) {
+                console.log(evt);
+            }
+
+        </script>
+    </head>
+    <body>
+        hello
+    </body>
+</html>
+
