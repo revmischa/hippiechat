@@ -1,0 +1,7 @@
+.ui-chatbox-msg {
+    color: #ccc;
+}
+
+.ui-widget-content.ui-chatbox-log {
+    background-color: #000 !important;
+}
