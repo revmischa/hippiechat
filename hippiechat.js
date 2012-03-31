@@ -21,15 +21,18 @@ $.extend(HippieChat.prototype, {
         } 
         
         var chatbox = $(document.createElement("div"));
-        this.chatbox = chatbox;
         
-        chatbox.chatbox({
-            title : "test chat", 
-            messageSent : function(id, user, msg) {
-                console.log(id + " said: " + msg);
-                chatbox.chatbox("option", "boxManager").addMsg(id, msg);
-            }
+        this.chatbox = chatbox.chatbox({
+            title: "test chat", 
+            user: "user",
+            messageSent: $.proxy(this.messageSent, this)
         });
+    },
+
+    messageSent: function(id, user, msg) {
+        console.log(id + " said: " + msg);
+        console.log(this.chatbox("option", "boxManager"));
+        this.chatbox("option", "boxManager").addMsg(id, msg);
     },
     
     _connected: function () {
