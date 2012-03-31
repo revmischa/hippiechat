@@ -16,6 +16,10 @@ function HippieChat(host, port, channel) {
 }
 
 $.extend(HippieChat.prototype, {
+    sendEvent: function (evt) {
+        return this.h.send(evt);
+    },
+    
     setChatTitle: function (title) {
         this.chatTitle = title;
         if (this.chatbox)
@@ -57,7 +61,10 @@ $.extend(HippieChat.prototype, {
     },
     
     _connected: function () {
-        this.addChatMessage("", "Chat started");
+        this.sendEvent({
+            'user': this.chatUsername,
+            chatEnter: 1
+        });
         this.trigger('connected');
     },
     
@@ -67,9 +74,14 @@ $.extend(HippieChat.prototype, {
     },
     
     _event: function (evt) {
+        if (evt.chatEnter && evt.user && evt.user != this.chatUsername) {
+            this.addChatMessage(null, "Chat session started with " + evt.user + ".");
+        }
+
         if (evt.chatMessage) {
             this.addChatMessage(evt.name, evt.chatMessage);
         }
+        
         this.trigger('event', evt);
     },
 
