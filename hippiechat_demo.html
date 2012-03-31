@@ -1,7 +1,8 @@
 <html>
     <head>
         <title>Test</title>
-        <base href="http://cjd.int80.biz:4000/static/" />
+        <!--base href="http://cjd.int80.biz:4000/static/" /-->
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="jquery-ui-1.8.18.custom.min.js"></script>
         <script src="jquery.ev.js"></script>
@@ -14,10 +15,12 @@
             var chat;
 
             $(function () {
-                chat = new HippieChat();
+                chat = new HippieChat('cjd.int80.biz', 4000);
                 chat.on('connected', connected);
                 chat.on('disconnected', disconnected);
                 chat.on('event', gotEvent);
+                
+                chat.showChatbox();
             });
 
             function connected() {

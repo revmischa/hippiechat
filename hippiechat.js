@@ -14,6 +14,24 @@ function HippieChat(host, port, channel) {
 }
 
 $.extend(HippieChat.prototype, {
+    showChatbox: function () {
+        if (this.chatbox) {
+            this.chatbox.fadeIn();
+            return;
+        } 
+        
+        var chatbox = $(document.createElement("div"));
+        this.chatbox = chatbox;
+        
+        chatbox.chatbox({
+            title : "test chat", 
+            messageSent : function(id, user, msg) {
+                console.log(id + " said: " + msg);
+                chatbox.chatbox("option", "boxManager").addMsg(id, msg);
+            }
+        });
+    },
+    
     _connected: function () {
         this.trigger('connected');
     },
