@@ -42,6 +42,12 @@ $.extend(HippieChat.prototype, {
             messageSent: $.proxy(this.messageSent, this)
         });
     },
+    
+    addChatMessage: function (user, msg) {
+        if (msg && this.chatbox && this.chatbox.chatbox) {
+            this.chatbox.chatbox("option", "boxManager").addMsg(user, msg);
+        }
+    },
 
     messageSent: function(id, user, msg) {
         this.h.send({
@@ -51,16 +57,18 @@ $.extend(HippieChat.prototype, {
     },
     
     _connected: function () {
+        this.addChatMessage("", "Chat started");
         this.trigger('connected');
     },
     
     _disconnected: function () {
+        this.addChatMessage("", "Chat ended");
         this.trigger('disconnected');
     },
     
     _event: function (evt) {
-        if (evt.chatMessage && this.chatbox && this.chatbox.chatbox) {
-            this.chatbox.chatbox("option", "boxManager").addMsg(evt.name, evt.chatMessage);
+        if (evt.chatMessage) {
+            this.addChatMessage(evt.name, evt.chatMessage);
         }
         this.trigger('event', evt);
     },
