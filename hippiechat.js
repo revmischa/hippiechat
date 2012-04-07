@@ -7,7 +7,7 @@ function HippieChat(host, port, channel) {
     var self = this;
     
     this.h = new Hippie(
-        host + ":" + port,
+        "ws://" + host + ":" + port,
         channel,
         $.proxy(this._connected, this),
         $.proxy(this._disconnected, this),
