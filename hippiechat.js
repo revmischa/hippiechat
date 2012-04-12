@@ -80,7 +80,7 @@ $.extend(HippieChat.prototype, {
             this.addChatMessage(null, "Chat session started with " + hevt.user + ".");
         }
 
-        if (evt.chatMessage) {
+        if (hevt.chatMessage) {
             this.addChatMessage(hevt.name, hevt.chatMessage);
         }
         
