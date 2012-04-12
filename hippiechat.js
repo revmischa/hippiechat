@@ -3,16 +3,18 @@ function HippieChat(host, port, channel) {
     if (! host) host = document.location.host;
     if (! port) port = 4000;
     if (! channel) channel = 'public_chat';
+    var hostLocation = "ws://" + host + ":" + port;
 
     var self = this;
     
-    this.h = new Hippie(
-        "ws://" + host + ":" + port,
-        channel,
-        $.proxy(this._connected, this),
-        $.proxy(this._disconnected, this),
-        function (evt) { self._event(evt) }
-    );
+    var h = new Hippie.Pipe();
+    this.h = h;
+    h.args = channel;
+    $(h)
+        .bind("connected", $.proxy(this._connected, this))
+	.bind("disconnected", $.proxy(this._disconnected, this))
+        .bind("disconnected", $.proxy(this._event, this));
+    h.init({ 'host': hostLocation });
 }
 
 $.extend(HippieChat.prototype, {
