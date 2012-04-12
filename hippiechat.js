@@ -13,7 +13,7 @@ function HippieChat(host, port, channel) {
     $(h)
         .bind("connected", $.proxy(this._connected, this))
 	.bind("disconnected", $.proxy(this._disconnected, this))
-        .bind("disconnected", $.proxy(this._event, this));
+        .bind("event", $.proxy(this._event, this));
     h.init({ 'host': hostLocation });
 }
 
@@ -75,16 +75,16 @@ $.extend(HippieChat.prototype, {
         this.trigger('disconnected');
     },
     
-    _event: function (evt) {
-        if (evt.chatEnter && evt.user && evt.user != this.chatUsername) {
-            this.addChatMessage(null, "Chat session started with " + evt.user + ".");
+    _event: function (jevt, hevt) {
+        if (hevt.chatEnter && hevt.user && hevt.user != this.chatUsername) {
+            this.addChatMessage(null, "Chat session started with " + hevt.user + ".");
         }
 
         if (evt.chatMessage) {
-            this.addChatMessage(evt.name, evt.chatMessage);
+            this.addChatMessage(hevt.name, hevt.chatMessage);
         }
         
-        this.trigger('event', evt);
+        this.trigger('event', hevt);
     },
 
     // borrow some methods from jQuery                                                                                                         
